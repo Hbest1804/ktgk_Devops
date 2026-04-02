@@ -1,10 +1,12 @@
 import { MOCK_MOVIES } from '../data/mockData';
 import MovieCard from '../components/MovieCard';
 import { User, Settings, Clock, Heart } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Profile() {
   const watchHistory = MOCK_MOVIES.slice(0, 3);
   const favoriteMovies = MOCK_MOVIES.slice(3, 6);
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-black text-white pt-24 pb-20">
@@ -16,8 +18,14 @@ export default function Profile() {
             <User className="w-16 h-16 text-gray-400" />
           </div>
           <div className="flex-1 text-center md:text-left">
-            <h1 className="text-4xl font-bold mb-2">John Doe</h1>
-            <p className="text-gray-400 mb-6">john.doe@example.com</p>
+            <h1 className="text-4xl font-bold mb-2">{user?.name || "Chưa đăng nhập"}</h1>
+            <p className="text-gray-400 mb-2">{user?.email}</p>
+            {(user?.student_id || user?.class_name) && (
+              <p className="text-gray-400 font-medium mb-6">
+                MSSV: <span className="text-white">{user.student_id || "Trống"}</span> | Lớp: <span className="text-white">{user.class_name || "Trống"}</span>
+              </p>
+            )}
+            {!user?.student_id && <div className="mb-6"></div>}
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
               <button className="bg-white/10 hover:bg-white/20 text-white px-6 py-2 rounded-md font-medium transition-colors flex items-center gap-2">
                 <Settings className="w-4 h-4" /> Edit Profile

@@ -18,7 +18,7 @@ const generateToken = (user) => {
  */
 const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, student_id, class_name } = req.body;
 
     // Validate đầu vào
     if (!name || !email || !password) {
@@ -39,14 +39,16 @@ const register = async (req, res) => {
 
     // Tạo user mới
     const [result] = await pool.query(
-      'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-      [name.trim(), email.toLowerCase().trim(), hashedPassword]
+      'INSERT INTO users (name, email, password, student_id, class_name) VALUES (?, ?, ?, ?, ?)',
+      [name.trim(), email.toLowerCase().trim(), hashedPassword, student_id || null, class_name || null]
     );
 
     const newUser = {
       id: result.insertId,
       name: name.trim(),
       email: email.toLowerCase().trim(),
+      student_id: student_id || null,
+      class_name: class_name || null,
       role: 'user',
     };
 
@@ -102,6 +104,8 @@ const login = async (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
+        student_id: user.student_id,
+        class_name: user.class_name,
         role: user.role,
         avatar: user.avatar,
       },
@@ -119,7 +123,7 @@ const login = async (req, res) => {
 const getMe = async (req, res) => {
   try {
     const [rows] = await pool.query(
-      'SELECT id, name, email, role, avatar, created_at FROM users WHERE id = ?',
+      'SELECT id, name, email, student_id, class_name, role, avatar, created_at FROM users WHERE id = ?',
       [req.user.id]
     );
     if (rows.length === 0) {

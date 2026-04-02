@@ -6,6 +6,8 @@ interface User {
   id: number;
   name: string;
   email: string;
+  student_id: string | null;
+  class_name: string | null;
   role: string;
   avatar?: string;
 }
@@ -17,7 +19,7 @@ interface AuthContextType {
   isAdmin: boolean;
   loading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; message: string }>;
-  register: (name: string, email: string, password: string) => Promise<{ success: boolean; message: string }>;
+  register: (name: string, email: string, password: string, student_id: string, class_name: string) => Promise<{ success: boolean; message: string }>;
   logout: () => void;
   updateUser: (data: Partial<User>) => void;
 }
@@ -64,12 +66,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (name: string, email: string, password: string, student_id: string, class_name: string) => {
     try {
       const res = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, student_id, class_name }),
       });
       const data = await res.json();
       if (!data.success) return { success: false, message: data.message };

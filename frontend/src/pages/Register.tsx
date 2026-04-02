@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
   const [name, setName] = useState('');
+  const [studentId, setStudentId] = useState('');
+  const [className, setClassName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -26,7 +28,7 @@ export default function Register() {
     }
 
     setLoading(true);
-    const result = await register(name, email, password);
+    const result = await register(name, email, password, studentId, className);
     setLoading(false);
 
     if (result.success) {
@@ -78,6 +80,24 @@ export default function Register() {
               placeholder="Họ và tên"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="w-full bg-gray-800 text-white rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+              required
+            />
+            <input
+              id="reg-student-id"
+              type="text"
+              placeholder="Mã số sinh viên"
+              value={studentId}
+              onChange={(e) => setStudentId(e.target.value)}
+              className="w-full bg-gray-800 text-white rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+              required
+            />
+            <input
+              id="reg-class"
+              type="text"
+              placeholder="Lớp"
+              value={className}
+              onChange={(e) => setClassName(e.target.value)}
               className="w-full bg-gray-800 text-white rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
               required
             />

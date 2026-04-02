@@ -25,12 +25,22 @@ async function initDB() {
       name        VARCHAR(100)  NOT NULL,
       email       VARCHAR(150)  NOT NULL UNIQUE,
       password    VARCHAR(255)  NOT NULL,
+      student_id  VARCHAR(50)   DEFAULT NULL,
+      class_name  VARCHAR(50)   DEFAULT NULL,
       role        ENUM('user','admin') DEFAULT 'user',
       avatar      VARCHAR(500)  DEFAULT NULL,
       created_at  DATETIME      DEFAULT CURRENT_TIMESTAMP,
       updated_at  DATETIME      DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
   `);
+
+  try {
+    // Tự động thêm cột vào bảng cũ nếu đã tồn tại
+    await tempConn.query("ALTER TABLE users ADD COLUMN student_id VARCHAR(50) DEFAULT NULL;");
+    await tempConn.query("ALTER TABLE users ADD COLUMN class_name VARCHAR(50) DEFAULT NULL;");
+  } catch (err) {
+    // Cột đã tồn tại, bỏ qua lỗi
+  }
 
   console.log('✅ Database & tables initialized!');
   await tempConn.end();

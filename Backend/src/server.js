@@ -25,12 +25,26 @@ app.get('/health', (req, res) => {
 });
 
 // Trang thông tin cá nhân (/about)
-app.get('/about', (req, res) => {
-  res.json({
-    "Họ tên sinh viên": "Nguyễn Văn A", // Bạn thay tên bạn vào đây nhé
-    "Mã số sinh viên": "12345678", // Thay mã số sinh viên vào đây
-    "Lớp": "Công nghệ thông tin" // Thay tên lớp vào đây
-  });
+app.get('/about', async (req, res) => {
+  try {
+    const pool = require('./config/db');
+    const [rows] = await pool.query('SELECT name, student_id, class_name FROM users ORDER BY id DESC LIMIT 1');
+    if (rows.length > 0) {
+      res.json({
+        "Họ tên sinh viên": rows[0].name,
+        "Mã số sinh viên": rows[0].student_id || "Chưa nhập",
+        "Lớp": rows[0].class_name || "Chưa nhập"
+      });
+    } else {
+      res.json({
+        "Họ tên sinh viên": "Chưa có sinh viên đăng ký",
+        "Mã số sinh viên": "N/A",
+        "Lớp": "N/A"
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
 });
 
 // 404 handler
