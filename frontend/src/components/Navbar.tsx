@@ -31,7 +31,7 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
               <Link to="/" className="hover:text-white transition-colors">Home</Link>
               <Link to="/search" className="hover:text-white transition-colors">Movies</Link>
-              <Link to="/search?genre=Series" className="hover:text-white transition-colors">Series</Link>
+              <Link to="/about" className="hover:text-white text-red-500 font-bold transition-colors">Thông tin SV</Link>
             </div>
           </div>
 
