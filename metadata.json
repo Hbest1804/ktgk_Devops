@@ -1,0 +1,5 @@
+{
+  "name": "MovieFlix",
+  "description": "A frontend for a movie streaming application with home, details, player, search, auth, profile, and admin pages.",
+  "requestFramePermissions": []
+}
