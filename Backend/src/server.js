@@ -19,9 +19,18 @@ app.use(express.urlencoded({ extended: true }));
 // ─── Routes ─────────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'MovieFlix API is running 🎬', time: new Date() });
+// Health check (/health)
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
+// Trang thông tin cá nhân (/about)
+app.get('/about', (req, res) => {
+  res.json({
+    "Họ tên sinh viên": "Nguyễn Văn A", // Bạn thay tên bạn vào đây nhé
+    "Mã số sinh viên": "12345678", // Thay mã số sinh viên vào đây
+    "Lớp": "Công nghệ thông tin" // Thay tên lớp vào đây
+  });
 });
 
 // 404 handler
