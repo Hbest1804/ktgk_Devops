@@ -9,7 +9,7 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-black text-white pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Profile Header */}
         <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mb-16 border-b border-white/10 pb-12">
           <div className="w-32 h-32 bg-gray-800 rounded-full flex items-center justify-center border-4 border-gray-700">
